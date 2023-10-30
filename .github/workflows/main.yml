@@ -27,13 +27,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Dependabot
+        uses: dependabot/dependabot-action@v2
         with:
-          ruby-version: '2.7.2'
-
-      - name: Install Dependabot
-        run: gem install dependabot
-
-      - name: Run Dependabot
-        run: dependabot
+          github_token: ${{ secrets.SECRET_TOKEN }}
