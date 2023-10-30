@@ -1,21 +1,53 @@
-name: SonarCloud Analysis
+name: java
 
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
-  sonarcloud:
+  maven_build:
     runs-on: ubuntu-latest
 
     steps:
-     
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+  sonarcloud:
+    needs: maven_build
+    runs-on: ubuntu-latest
+
+    steps:
       - name: SonarCloud Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
 
-     
+  dependabot:
+    needs: maven_build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.x'
+
+      - name: Install Dependabot
+        run: gem install dependabot
+
+      - name: Run Dependabot
+        run: dependabot
 
