@@ -1,33 +1,23 @@
-name: Maven Build and Dependabot Scan
-
-on:
-  push:
-    branches:
-      - main
-
+name: gitleaks
+on: [pull_request, push, workflow_dispatch]
 jobs:
-  maven_build:
+  scan:
+    name: gitleaks
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Java
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v3
         with:
-          java-version: '11'
-          distribution: 'adopt'
+          fetch-depth: 0
 
-  dependabot:
-    needs: maven_build
-    runs-on: ubuntu-latest
+      - name: Install Gitleaks
+        run: |
+          wget -O gitleaks https://github.com/zricethezav/gitleaks/releases/download/v8.18.0/gitleaks-linux-amd64
+          chmod +x gitleaks
+          sudo mv gitleaks /usr/local/bin/
+        shell: bash
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Dependabot
-        uses: dependabot/dependabot-action@v2
-        with:
-          github_token: ${{ secrets.SECRET_TOKEN }}
+      - name: Run Gitleaks
+        run: |
+          gitleaks --version
+          git log --pretty=format:"%H" | xargs -I % gitleaks --commit=%
+        shell: bash
