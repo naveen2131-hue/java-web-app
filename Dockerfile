@@ -10,6 +10,7 @@ RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 ENV Username: dhoni
+ENV Email id: dhoni@cricket.com
 ENV Password: treetree
 ENV Apikey: jdgsvfgeyfreyfgwftegyureq
 
