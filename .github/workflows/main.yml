@@ -11,7 +11,7 @@ jobs:
 
       - name: Install Gitleaks
         run: |
-          wget -O gitleaks https://github.com/zricethezav/gitleaks/releases/download/v8.18.0/gitleaks-linux-amd64
+          wget -O gitleaks https://github.com/zricethezav/gitleaks/releases/download/gitleaks_8.18.0_linux_x64.tar.gz
           chmod +x gitleaks
           sudo mv gitleaks /usr/local/bin/
         shell: bash
