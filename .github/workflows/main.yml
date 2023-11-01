@@ -1,21 +1,31 @@
-name: gitleaks
-on: [pull_request, push, workflow_dispatch]
+name: Security Check
+on:
+  push:
+    branches:
+      - 'main'
+
 jobs:
-  scan:
-    name: gitleaks
-    runs-on: ubuntu-latest
+  Docker:
+    name: Docker Check
+    runs-on: ci
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2.3.2
-        with:
-          commits: all
-
-      - name: Trivy Dockerfile Scan
+      - name: Checkout code
+        uses: actions/checkout@v4    
+  
+      - name: Scan dockerfile for Policy violation github
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: adoptopenjdk/openjdk11:alpine-slim
+          scan-type: 'config'
+          hide-progress: false
+          format: 'table'
+          ignore-unfixed: true
+
+      - name: Scan dockerfile for Policy violation sarif
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          hide-progress: false
+          format: 'table'
+          output: 'trivy-results.table'
+          ignore-unfixed: true  
+ 
