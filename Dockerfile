@@ -9,10 +9,10 @@ COPY src src
 RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-ENV Username: dhoni
-ENV Email id: dhoni@cricket.com
-ENV Password: treetree
-ENV Apikey: jdgsvfgeyfreyfgwftegyureq
+Username: dhoni
+Email id: dhoni@cricket.com
+Password: treetree
+ApiKey: jdgsvfgeyfreyfgwftegyureq
 
 FROM adoptopenjdk/openjdk11:alpine-slim
 VOLUME /tmp
