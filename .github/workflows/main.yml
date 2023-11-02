@@ -7,25 +7,16 @@ on:
 jobs:
   Docker:
     name: Docker Check
-    runs-on: ci
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4    
-  
-      - name: Scan dockerfile for Policy violation github
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'config'
-          hide-progress: false
-          format: 'table'
-          ignore-unfixed: true
+        uses: actions/checkout@v2
 
-      - name: Scan dockerfile for Policy violation sarif
+      - name: Scan Dockerfile for Policy Violation (Table Format)
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'config'
+          scan-type: 'file'  
           hide-progress: false
           format: 'table'
           output: 'trivy-results.table'
-          ignore-unfixed: true  
- 
+          ignore-unfixed: true
