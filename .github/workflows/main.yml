@@ -16,6 +16,5 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'file'  
-          hide-progress: false
           format: 'table'
           output: 'trivy-results.table'
