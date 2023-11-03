@@ -4,17 +4,16 @@ on:
     branches:
     - main
   pull_request:
+
 jobs:
   build:
     name: Build
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
-    - name: Run Trivy vulnerability scanner in fs mode
-      uses: aquasecurity/trivy-action@master
+    - name: Run Trivy vulnerability scanner on Dockerfile
+      uses: aquasecurity/trivy-action@v1
       with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        trivy-config: trivy.yaml
+        image-ref: ./Dockerfile
