@@ -1,19 +1,21 @@
-name: build
+name: Security Check
 on:
   push:
     branches:
-    - main
-  pull_request:
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-20.04
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - 'main'
 
-    - name: Run Trivy vulnerability scanner in fs mode
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'fs'
-        scan-ref: 'Dockerfile'
+jobs:
+  Docker:
+    name: Docker Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Scan Dockerfile for Policy Violation (Table Format)
+        uses: aquasecurity/trivy-action@master
+        with
+          scan-type: 'fs'  
+          format: 'table'
+          output: 'trivy-results.table'
+          Dockerfile: 'Dockerfile'
