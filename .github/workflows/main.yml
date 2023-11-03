@@ -13,6 +13,6 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Run Trivy vulnerability scanner on Dockerfile
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@v0.9.2
       with:
         image-ref: ./Dockerfile
