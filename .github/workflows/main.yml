@@ -12,8 +12,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-     - name: Install Trivy
-        run: |
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v${{ env.TRIVY_VERSION }}
+    - name: Run Trivy vulnerability scanner on Dockerfile
+      uses: aquasecurity/trivy-action@v1
       with:
         image-ref: ./Dockerfile
