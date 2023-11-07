@@ -15,4 +15,43 @@ jobs:
         with:
           commits: all
 
-      
+      Gitleaks Scan:
+    name: Gitleaks Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        id: checkout
+        uses: actions/checkout@v3
+      - name: Gitleaks Scan
+        id: Gitleaks Scan
+        run: |
+      - name: upload Gitleaks Scan results
+        id: upload-Gitleaks Scan-results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Gitleaks Scan-results
+          path: Gitleaks Scan/results/
+
+  import-Gitleaks Scan-report:
+    name: import Gitleaks Scan report
+    runs-on: ubuntu-latest
+    steps:
+      - name: download scan results artifact
+        id: download-scan-results-artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Gitleaks Scan-results
+      - name: import scan results into defectdojo
+        id: import-scan-results-into-defectdojo
+        uses: portswigger-cloud/defectdojo-github-action@v1
+        with:
+          defectdojo-url: https://defectdojo.example.con
+          defectdojo-username: ${{ secrets.defectdojo-username }}
+          defectdojo-password: ${{ secrets.defectdojo-password }}
+          defectdojo-product-type: example-product-type
+          defectdojo-product: example-product
+          defectdojo-environment-type: Production
+          defectdojo-scan-type: Gitleaks Scan Report
+          defectdojo-engagement-name: Github Actions Initiated SAST Scan
+          scan-results-file-name: Gitleaks.sarif
