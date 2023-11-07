@@ -1,56 +1,9 @@
-name: Gitleaks Scan
-
+name: semgrep-sast-scan-and-import-to-defectdojo
 on:
-  pull_request:
-  push:
-  workflow_dispatch:
-
+  push
 jobs:
-  scan:
-    name: Gitleaks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2.3.2
-        with:
-          commits: all
-
-  upload-results:
-    name: Upload Gitleaks Scan Results
-    runs-on: ubuntu-latest
-    needs: scan
-    steps:
-      - name: Archive Gitleaks Scan Results
-        uses: actions/upload-artifact@v2
-        with:
-          name: Gitleaks-Scan-Results
-          path: ${{ github.workspace }}/gitleaks-results.sarif
-
-  import-results:
-    name: Import Gitleaks Scan Report into DefectDojo
-    runs-on: ubuntu-latest
-    needs: upload-results
-    steps:
-      - name: Download Gitleaks Scan Results Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: Gitleaks-Scan-Results
-          path: ${{ github.workspace }}
-
-      - name: Import Scan Results into DefectDojo
-        uses: portswigger-cloud/defectdojo-github-action@v1
-        with:
-          defectdojo-url: https://defectdojo.example.com
-          defectdojo-username: ${{ secrets.defectdojo-username }}
-          defectdojo-password: ${{ secrets.defectdojo-password }}
-          defectdojo-product-type: example-product-type
-          defectdojo-product: example-product
-          defectdojo-environment-type: Production
-          defectdojo-scan-type: Gitleaks Scan Report
-          defectdojo-engagement-name: Github Actions Initiated SAST Scan
-          scan-results-file-name: gitleaks-results.sarif
+  steps:
+  - name: Run Dastardly Action Step
+    uses: PortSwigger/dastardly-github-action@main
+    with:
+      target-url: 'https://ginandjuice.shop'
