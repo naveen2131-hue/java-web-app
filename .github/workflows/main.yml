@@ -22,11 +22,11 @@ jobs:
 
       - name: Download Gitleaks Report
         run: |
-          wget -O gitleaks-report.json https://raw.githubusercontent.com/${{ github.repository }}/gitleaks-report.json
+          wget -O gitleaks-report.json https://github.com/${{ github.repository }}/raw/main/gitleaks-report.json
         if: success()
 
   - name: Upload Gitleaks Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: gitleaks-report
-          path: gitleaks-report.json
+    uses: actions/upload-artifact@v2
+    with:
+      name: gitleaks-report
+      path: gitleaks-report.json
