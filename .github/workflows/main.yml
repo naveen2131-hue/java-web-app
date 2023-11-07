@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Gitleaks-Scan-Results
-          path: ${{ github.workspace }}/gitleaks-report.json
+          path: ${{ github.workspace }}/gitleaks-results.sarif
 
   import-results:
     name: Import Gitleaks Scan Report into DefectDojo
@@ -53,4 +53,4 @@ jobs:
           defectdojo-environment-type: Production
           defectdojo-scan-type: Gitleaks Scan Report
           defectdojo-engagement-name: Github Actions Initiated SAST Scan
-          scan-results-file-name: gitleaks-report.json
+          scan-results-file-name: gitleaks-results.sarif
