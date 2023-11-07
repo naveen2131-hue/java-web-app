@@ -1,9 +1,14 @@
-name: gitleaks
-on: [pull_request, push, workflow_dispatch]
+name: Gitleaks Scan
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
 jobs:
-  scan:
-    name: gitleaks
+  gitleaks-scan:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -14,3 +19,14 @@ jobs:
         uses: gitleaks/gitleaks-action@v2.3.2
         with:
           commits: all
+
+      - name: Download Gitleaks Report
+        run: |
+          wget -O gitleaks-report.json https://raw.githubusercontent.com/${{ github.repository }}/gitleaks-report.json
+        if: success()
+
+  - name: Upload Gitleaks Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: gitleaks-report
+          path: gitleaks-report.json
