@@ -30,7 +30,7 @@ jobs:
             -H 'Content-Type: multipart/form-data' \
             -H 'Authorization: Token d35b7ccf20b2d88408b7cb6bdd3211419dca4095' \
             -H 'X-CSRFToken: cgpwJyENocfovvV5wao18wmakV9LyWx2lmGhvP4seagvnIymdjlj9ooiv6pLe8NI' \
-            -F 'file=@result.json;type=application/json' \
+            -F 'file=@gitleaks-result.sarif;type=application/sarif' \
             -F 'minimum_severity=Info' \
             -F 'active=true' \
             -F 'verified=true' \
