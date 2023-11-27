@@ -12,10 +12,17 @@ jobs:
           fetch-depth: 0
 
       - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2.3.2
+        uses: DariuszPorowski/github-action-gitleaks@v2
         with:
+          fail: false
           flags: "--all"
           output-format: json
+
+      - name: Upload Gitleaks Report as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: gitleaks-report
+          path: gitleaks-report.json
 
   defectdojo_scan:
     name: DefectDojo Scan
@@ -30,7 +37,7 @@ jobs:
             -H 'Content-Type: multipart/form-data' \
             -H 'Authorization: Token d35b7ccf20b2d88408b7cb6bdd3211419dca4095' \
             -H 'X-CSRFToken: cgpwJyENocfovvV5wao18wmakV9LyWx2lmGhvP4seagvnIymdjlj9ooiv6pLe8NI' \
-            -F 'file=@gitleaks-result.sarif;type=application/sarif' \
+            -F 'file=@gitleaks-report;type=application/json' \
             -F 'minimum_severity=Info' \
             -F 'active=true' \
             -F 'verified=true' \
