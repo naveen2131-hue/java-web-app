@@ -1,20 +1,16 @@
-name: Dastardly
-
-on:
-  push:
-    branches:
-      - main
-
+name: gitleaks
+on: [pull_request, push, workflow_dispatch]
 jobs:
-  security-scan:
+  scan:
+    name: gitleaks
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-
-      - name: Run Dastardly Action Step
-        uses: PortSwigger/dastardly-github-action@main
         with:
-          target-url: 'https://ginandjuice.shop'
-          outout-filename: 'report.xml'
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2.3.2
+        with:
+          commits: all
